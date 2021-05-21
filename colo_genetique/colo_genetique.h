@@ -3,12 +3,17 @@
 
 #include "../graph_colo/graph_colo.h"
 
-graph_colo* generergraphAleatoire(int taille);
+// graph_colo* genererColorationAleatoire(graph_colo g);
 
-void genererPopulation(int taillePopulation, graph_colo* dans);
+// graph_colo* genererPopulation(int taillePopulation, graph_colo g);
 
-void selectionnerElements(graph_colo* origin, int tailleOrigin, graph_colo* dans, int tailleDans);
+// int calculerConflits(graph_colo g);
 
+// graph_colo *selectionnerElements(graph_colo *origin, int taillePopulation);
+
+// void crossOver(graph_colo* population, int taillePopulation,graph_colo* dans) ;
+
+void alg_genetique(graph_colo g, int taillePopulation, int nbIter);
 
 
 #endif
