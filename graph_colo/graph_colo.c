@@ -60,8 +60,6 @@ int setColor(graph_colo myGraph, node x, color col)
         return 0;
     }
 
-    printf("[DEBUG] => SET %d - %d\n", x, col);
-
     myGraph->colors[x - 1] = col;
     return 1;
 }
