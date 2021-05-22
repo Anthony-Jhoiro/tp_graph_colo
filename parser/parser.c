@@ -96,13 +96,13 @@ void writePumlColo(char *filename, graph_colo myGraph)
 
     fprintf(output, "@startuml\n\n");
 
-    color maxColor = getMaxColor(myGraph);
+    color maxColor = getMaxColor(myGraph) + 2;
     unsigned int colorMaxSize = 256 * 256 * 256;
 
     for (int i = 0; i < myGraph->g->size; i++)
     {
 
-        color col = (int)((myGraph->colors[i] / (float)maxColor) * (float)colorMaxSize);
+        color col = (int)(((myGraph->colors[i]+1) / (float)maxColor) * (float)colorMaxSize);
         fprintf(output, "usecase \"%d\" #%6X\n", i + 1, col);
     }
 

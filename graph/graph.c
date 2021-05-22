@@ -218,6 +218,8 @@ int edgeExists(graph myGraph, node x, node y)
         return -1;
     }
 
+    if (x == y) return 0;
+
     int line, column;
 
     if (x > y)
