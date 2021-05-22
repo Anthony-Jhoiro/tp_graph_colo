@@ -1,5 +1,5 @@
 #include "./parser/parser.h"
-#include "colo_genetique/colo_genetique.h"
+#include "algorithme_genetique/algorithme_genetique.h"
 #include <time.h>
 #include <stdlib.h>
 

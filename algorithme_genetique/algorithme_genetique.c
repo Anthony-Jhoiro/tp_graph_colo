@@ -1,4 +1,4 @@
-#include "colo_genetique.h"
+#include "algorithme_genetique.h"
 #include <time.h>
 #include <stdlib.h>
 
