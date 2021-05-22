@@ -35,7 +35,7 @@ int calculerConflits(graph_colo myGraph, color *individu)
     {
         for (int j = i; j < myGraph->g->size; j++)
         {
-            if (myGraph->g->content[i][j] && individu[i] == individu[j])
+            if (edgeExists(myGraph->g, i + 1, j + 1) && individu[i] == individu[j])
             {
                 res++;
             }

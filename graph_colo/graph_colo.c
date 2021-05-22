@@ -94,7 +94,7 @@ int getSaturation(graph_colo myGraph, node target)
     int cpt = 0;
     for (int i = 1; i <= myGraph->g->size; i++)
     {
-        if (isColored(myGraph, i) && myGraph->g->content[target - 1][i - 1])
+        if (isColored(myGraph, i) && edgeExists(myGraph->g, target, i))
         {
             cpt++;
         }

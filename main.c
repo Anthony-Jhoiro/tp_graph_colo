@@ -9,6 +9,7 @@ int main(int argc, char const *argv[])
     srand(time(NULL)); 
     graph myGraph = readGraph("./assets/1-FullIns_3.col");
     printGraph(myGraph);
+    printGraph(myGraph);
 
     // graph_colo myGraphColo = createGraphColo(myGraph->size);
 

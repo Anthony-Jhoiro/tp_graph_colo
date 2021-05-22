@@ -79,7 +79,7 @@ void writePuml(char *filename, graph g)
     {
         for (int j = i; j < g->size; j++)
         {
-            if (g->content[i][j])
+            if (edgeExists(g, i+1, j+1))
             {
                 fprintf(output, "%d --> %d\n", i + 1, j + 1);
             }
@@ -110,7 +110,7 @@ void writePumlColo(char *filename, graph_colo myGraph)
     {
         for (int j = i; j < myGraph->g->size; j++)
         {
-            if (myGraph->g->content[i][j])
+            if (edgeExists(myGraph->g, i + 1, j + 1))
             {
                 fprintf(output, "%d -- %d\n", i + 1, j + 1);
             }
