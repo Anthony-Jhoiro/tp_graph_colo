@@ -1,6 +1,8 @@
 #include "algorithme_genetique.h"
 #include <time.h>
 #include <stdlib.h>
+#include <math.h>
+
 
 color *genererColorationAleatoire(int size)
 {
@@ -74,41 +76,63 @@ int nombreCouleur(color *individu, int tailleIndividu)
     return indexSet;
 }
 
+#define PROBA_MUTATION 0.2
+
+
+void muterSelection(graph_colo origin, int tailleSelection, color **individus) {
+    for (int i = 0; i < tailleSelection; i++) {
+        if (random() <= PROBA_MUTATION) {
+            int nodeIndex = floor(random() * origin->g->size);
+            individus[i][nodeIndex] = (color) floor(random() * origin->g->size);
+        }
+    }
+}
+
+
+
 color **selectionnerElements(graph_colo origin, int taillePopulation, color **individus)
 {
     color **population = malloc(sizeof(color *) * taillePopulation);
 
     int tailleSelection = (int)taillePopulation / 2;
 
-    int *selectionnesProba = malloc(sizeof(int) * tailleSelection);
+    int *selectionnesConflits = malloc(sizeof(int) * tailleSelection);
     for (int j = 0; j < tailleSelection; j++)
     {
-        selectionnesProba[j] = origin->g->size;
+        selectionnesConflits[j] = origin->g->size;
     }
 
     for (int i = 0; i < taillePopulation; i++)
     {
-        int proba = calculerConflits(origin, individus[i]);
+        int nbConflits = calculerConflits(origin, individus[i]);
         for (int p = 0; p < tailleSelection; p++)
         {
-            if (selectionnesProba[p] >= proba)
+            if (selectionnesConflits[p] >= nbConflits)
             {
 
-                if (selectionnesProba[p] == proba)
+                if (selectionnesConflits[p] == nbConflits)
                 {
                     if (nombreCouleur(population[p], origin->g->size) <= nombreCouleur(individus[i], origin->g->size))
                     {
                         continue;
                     }
                 }
-                selectionnesProba[p] = proba;
+                for (int k = tailleSelection - 1; k > p  - 1; k--) {
+                    selectionnesConflits[k] = selectionnesConflits[k - 1];
+                    population[k] = population[k - 1];
+                    population[k + tailleSelection] = population[k - 1];
+                }
+                selectionnesConflits[p] = nbConflits;
                 population[p] = individus[i];
                 population[p + tailleSelection] = individus[i];
+                
+                break;
             }
         }
     }
 
-    free(selectionnesProba);
+
+    free(selectionnesConflits);
 
     return population;
 }
@@ -152,19 +176,22 @@ void alg_genetique(graph_colo g, int taillePopulation, int nbIter)
 
     for (int i = 0; i < nbIter; i++)
     {
+        printf("\rIter : %d", i);
         color **selection = selectionnerElements(g, taillePopulation, pop);
 
         crossOver(g, selection, taillePopulation, pop);
 
+        muterSelection(g, taillePopulation, pop);
+
         free(selection);
     }
+    printf("\n");
 
     int minSaturation = g->g->size;
     color *selectionne = NULL;
 
     for (int i = 0; i < taillePopulation; i++)
     {
-        printf("Iterration : %d\n", i);
         int saturation = calculerConflits(g, pop[i]);
         if (saturation < minSaturation)
         {
@@ -184,5 +211,5 @@ void alg_genetique(graph_colo g, int taillePopulation, int nbIter)
     }
 
     printf("interference %d\n", calculerConflits(g, g->colors));
-    printf("Nombre couleurs %d\n", nombreCouleur(g->colors, g->g->size));
+    printf("Nombre couleurs %d / %d\n", nombreCouleur(g->colors, g->g->size), g->g->size);
 }
