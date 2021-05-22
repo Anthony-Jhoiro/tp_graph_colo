@@ -1,15 +1,26 @@
-main: main.o graph.o parser.o graph_colo.o
-	gcc -o main main.o graph.o parser.o graph_colo.o
+CXX       := gcc
+CXX_FLAGS := -ggdb
 
-graph.o: graph/graph.c
-	gcc -c graph/graph.c
+BIN     := bin
+SRC     := .
+INCLUDE := include
 
-parser.o: parser/parser.c
-	gcc -c parser/parser.c
+LIBRARIES   :=
+EXECUTABLE  := main
 
-graph_colo.o: graph_colo/graph_colo.c
-	gcc -c graph_colo/graph_colo.c
+
+all: $(BIN)/$(EXECUTABLE)
+
+run: clean all
+	clear
+	./$(BIN)/$(EXECUTABLE)
+
+# $^ => all files (nanoml.c & $(SRC)/**/*.c) 
+# $@ => target ($(BIN)/$(EXECUTABLE))
+
+$(BIN)/$(EXECUTABLE): main.c $(SRC)/**/*.c
+	mkdir -p $(BIN)
+	$(CXX) $(CXX_FLAGS) -I$(INCLUDE) $^ -o $@ $(LIBRARIES)
 
 clean:
-	rm main
-	rm *.o
+	-rm $(BIN)/*
