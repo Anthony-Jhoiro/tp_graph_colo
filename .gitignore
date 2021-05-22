@@ -7,3 +7,5 @@ assets
 main 
 
 test_graph
+
+*.puml

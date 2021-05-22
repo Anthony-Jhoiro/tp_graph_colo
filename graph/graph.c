@@ -8,23 +8,25 @@
  * \return a pointer to the brand new created matrix
  * 
  */
-adjacency_matrix* createMatrix(int size) {
+adjacency_matrix *createMatrix(int size)
+{
     // Allocate the memory
-    adjacency_matrix* newMatrix = malloc(sizeof(adjacency_matrix));
+    adjacency_matrix *newMatrix = malloc(sizeof(adjacency_matrix));
 
     newMatrix->size = size;
 
-    newMatrix->content = malloc(sizeof(coeff*) * size);
+    newMatrix->content = malloc(sizeof(coeff *) * size);
     // Set 0 for all coeffs
-    for (int i = 0; i < size; i++) {
-        newMatrix->content[i] = malloc(sizeof(coeff) * size);
-        for (int j = 0; j < size; j++) {
+    for (int i = 0; i < size; i++)
+    {
+        newMatrix->content[i] = malloc(sizeof(coeff) * i);
+        for (int j = 0; j < i; j++)
+        {
             newMatrix->content[i][j] = 0;
         }
     }
-    
+
     return newMatrix;
-    
 }
 
 /**
@@ -37,15 +39,30 @@ adjacency_matrix* createMatrix(int size) {
  * \return 1 if the matrix was successfully modified
  * \return 0 otherwise
  */
-int setCoeff(adjacency_matrix matrix, node x, node y){
-    if (x > matrix.size || y > matrix.size || x <= 0 || y <= 0) {
+int setCoeff(adjacency_matrix matrix, node x, node y)
+{
+    if (x > matrix.size || y > matrix.size || x <= 0 || y <= 0 || x == y)
+    {
         fprintf(stderr, "ERROR : Invalid nodes %d, %d", x, y);
         return 0;
     }
 
-    if (matrix.content[x-1][y-1] == 0){
-        matrix.content[x-1][y-1] = 1;
-        matrix.content[y-1][x-1] = 1;
+    int line, column;
+
+    if (x > y)
+    {
+        line = x - 1;
+        column = y - 1;
+    }
+    else
+    {
+        line = y - 1;
+        column = x - 1;
+    }
+
+    if (matrix.content[line][column] == 0)
+    {
+        matrix.content[line][column] = 1;
         return 1;
     }
     return 0;
@@ -58,25 +75,53 @@ int setCoeff(adjacency_matrix matrix, node x, node y){
  * 
  * \return void
  */
-void printMatrix(adjacency_matrix myMatrix) {
+void printMatrix(adjacency_matrix myMatrix)
+{
     printf("    ");
-    for (int j = 0; j < myMatrix.size; j++) {
+    for (int j = 0; j < myMatrix.size; j++)
+    {
         printf("\033[0;31m");
         printf("%4d", j + 1);
         printf("\033[0;37m");
     }
     printf("\n");
-    for (int i = 0; i < myMatrix.size; i++) {
+    for (int i = 0; i < myMatrix.size; i++)
+    {
         printf("\033[0;36m");
         printf("%4d", i + 1);
         printf("\033[0;37m");
-        
-        for(int j = 0; j < myMatrix.size; j++){
-            printf("%4d", myMatrix.content[i][j]);
+
+        for (int j = 0; j < myMatrix.size; j++)
+        {
+            if (j > i)
+            {
+                if (myMatrix.content[j][i])
+                {
+                    printf("\e[0;32m%4d\e[0;37m", myMatrix.content[j][i]);
+                }
+                else
+                {
+                    printf("%4d", myMatrix.content[j][i]);
+                }
+            }
+            else if (j < i)
+            {
+                if (myMatrix.content[i][j])
+                {
+                    printf("\e[0;32m%4d\e[0;37m", myMatrix.content[i][j]);
+                }
+                else
+                {
+                    printf("%4d", myMatrix.content[i][j]);
+                }
+            }
+            else
+            {
+                printf("\e[0;33m   X\e[0;37m");
+            }
         }
 
         printf("\n");
-        
     }
 }
 
@@ -87,8 +132,9 @@ void printMatrix(adjacency_matrix myMatrix) {
  * 
  * \return the graph created
  */
-graph createGraph(int size){
-    adjacency_matrix* adjacencies = createMatrix(size);
+graph createGraph(int size)
+{
+    adjacency_matrix *adjacencies = createMatrix(size);
     return adjacencies;
 }
 
@@ -101,7 +147,8 @@ graph createGraph(int size){
  * \return 1 if the modification was successful
  * \return 0 otherwise
  */
-int newEdge(graph myGraph, node origin, node destination){
+int newEdge(graph myGraph, node origin, node destination)
+{
     return setCoeff(*myGraph, origin, destination);
 }
 
@@ -109,11 +156,14 @@ int newEdge(graph myGraph, node origin, node destination){
  * \brief Print the content of the graph in the form of a adjacency matrix.
  * \param myGraph The graph to display
  */
-void printGraph(graph myGraph) {
-    if(myGraph != GRAPH_NULL) {
+void printGraph(graph myGraph)
+{
+    if (myGraph != GRAPH_NULL)
+    {
         printMatrix(*myGraph);
     }
-    else {
+    else
+    {
         printf("graph null : unable to display\n");
     }
 }
@@ -126,13 +176,14 @@ void printGraph(graph myGraph) {
  * \return void
  * 
  */
-void freeMatrix(adjacency_matrix* matrix){
-    for (int i = 0; i < matrix->size; i++){
+void freeMatrix(adjacency_matrix *matrix)
+{
+    for (int i = 0; i < matrix->size; i++)
+    {
         free(matrix->content[i]);
     }
     free(matrix->content);
     free(matrix);
-    
 }
 
 /**
@@ -143,7 +194,8 @@ void freeMatrix(adjacency_matrix* matrix){
  * \return void
  * 
  */
-void freeGraph(graph* myGraph) {
+void freeGraph(graph *myGraph)
+{
     freeMatrix(*myGraph);
     *myGraph = GRAPH_NULL;
 }
@@ -157,26 +209,52 @@ void freeGraph(graph* myGraph) {
  * 
  * \return the coefficient
  */
-int edgeExists(graph myGraph, node x, node y) {
-    if (x > myGraph->size || y > myGraph->size || x <= 0 || y <= 0) {
+int edgeExists(graph myGraph, node x, node y)
+{
+    if (x > myGraph->size || y > myGraph->size || x <= 0 || y <= 0)
+    {
         fprintf(stderr, "ERROR : [edgeExists] Invalid nodes %d, %d", x, y);
         exit(1);
         return -1;
     }
 
-    return myGraph->content[x -1 ][y -1 ];
+    if (x == y) return 0;
+
+    int line, column;
+
+    if (x > y)
+    {
+        line = x - 1;
+        column = y - 1;
+    }
+    else
+    {
+        line = y - 1;
+        column = x - 1;
+    }
+
+    return myGraph->content[line][column];
 }
 
-int degree(graph myGraph, node x) {
-    if (x > myGraph->size || x <= 0) {
+int degree(graph myGraph, node x)
+{
+    if (x > myGraph->size || x <= 0)
+    {
         fprintf(stderr, "ERROR : [degree] Invalid nodes %d", x);
         exit(1);
         return -1;
     }
     int cpt = 0;
 
-    for (int i = 0; i < myGraph->size; i++) {
-        cpt += myGraph->content[x -1][i] == 0;
+    int lineNumber = x - 1;
+
+    for (int i = 0; i < lineNumber; i++)
+    {
+        cpt += myGraph->content[lineNumber][i] == 1;
+    }
+    for (int i = lineNumber; i < myGraph->size; i++)
+    {
+        cpt += myGraph->content[lineNumber][i] == 1;
     }
 
     return cpt;

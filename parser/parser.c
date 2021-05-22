@@ -79,7 +79,7 @@ void writePuml(char *filename, graph g)
     {
         for (int j = i; j < g->size; j++)
         {
-            if (g->content[i][j])
+            if (edgeExists(g, i+1, j+1))
             {
                 fprintf(output, "%d --> %d\n", i + 1, j + 1);
             }
@@ -96,13 +96,13 @@ void writePumlColo(char *filename, graph_colo myGraph)
 
     fprintf(output, "@startuml\n\n");
 
-    color maxColor = getMaxColor(myGraph);
+    color maxColor = getMaxColor(myGraph) + 2;
     unsigned int colorMaxSize = 256 * 256 * 256;
 
     for (int i = 0; i < myGraph->g->size; i++)
     {
 
-        color col = (int)((myGraph->colors[i] / (float)maxColor) * (float)colorMaxSize);
+        color col = (int)(((myGraph->colors[i]+1) / (float)maxColor) * (float)colorMaxSize);
         fprintf(output, "usecase \"%d\" #%6X\n", i + 1, col);
     }
 
@@ -110,7 +110,7 @@ void writePumlColo(char *filename, graph_colo myGraph)
     {
         for (int j = i; j < myGraph->g->size; j++)
         {
-            if (myGraph->g->content[i][j])
+            if (edgeExists(myGraph->g, i + 1, j + 1))
             {
                 fprintf(output, "%d -- %d\n", i + 1, j + 1);
             }
