@@ -120,7 +120,7 @@ int isNeighborColoredWithColoredColor(graph_colo g, node x, color col)
         {
             if (g->colors[i] == col)
             {
-                printf("%d taken by %d\n", col, i + 1);
+                // printf("%d taken by %d\n", col, i + 1);
                 return 1;
             }
         }

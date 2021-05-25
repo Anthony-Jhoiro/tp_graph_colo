@@ -8,19 +8,19 @@ int main(int argc, char const *argv[])
 {
 
     srand(time(NULL)); 
-    graph myGraph = readGraph("./assets/1-FullIns_3.col");
+    graph myGraph = readGraph("./assets/wap04a.col");
 
     graph_colo myGraphColo = createGraphColo(myGraph->size);
 
     myGraphColo->g = myGraph;
-    printf("Starting genetic alg...\n");
-    alg_genetique(myGraphColo, 100, 10000);
+    // printf("Starting genetic alg...\n");
+    // alg_genetique(myGraphColo, 100, 3000000);
 
-    // runGreedyAlgorithm(myGraphColo);
+    runGreedyAlgorithm(myGraphColo);
 
     // colorColoredGraphWithColoredColors(myGraphColo);
 
-    printGraphColo(myGraphColo);
+    // printGraphColo(myGraphColo);
 
 
     writePumlColo("res2.puml", myGraphColo);

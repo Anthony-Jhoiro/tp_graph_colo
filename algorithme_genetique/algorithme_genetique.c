@@ -169,36 +169,60 @@ void crossOver(graph_colo origin, color **individus, int taillePopulation, color
     }
 }
 
+color* selectionnerColoration(graph_colo g, color** population, int taillePopulation) {
+    int minSaturation = g->g->size * g->g->size;
+    int minColoration = g->g->size;
+    color *selectionne = NULL;
+
+    for (int i = 0; i < taillePopulation; i++)
+    {
+        int saturation = calculerConflits(g, population[i]);
+        int coloration = nombreCouleur(g->colors, g->g->size);
+        if (saturation < minSaturation)
+        {
+            minSaturation = saturation;
+            minColoration = coloration;
+            selectionne = population[i];
+        } else if (saturation == minSaturation && coloration < minColoration) {
+            minSaturation = saturation;
+            minColoration = coloration;
+            selectionne = population[i];
+        }
+    }
+
+    return selectionne;
+}
+
 void alg_genetique(graph_colo g, int taillePopulation, int nbIter)
 {
 
     color **pop = genererPopulation(taillePopulation, g);
 
+
     for (int i = 0; i < nbIter; i++)
     {
-        printf("\rIter : %d", i);
         color **selection = selectionnerElements(g, taillePopulation, pop);
 
         crossOver(g, selection, taillePopulation, pop);
 
-        muterSelection(g, taillePopulation, pop);
+        muterSelection(g, taillePopulation, pop);        
 
         free(selection);
+
+        color *selectionne = selectionnerColoration(g, pop, taillePopulation);
+
+        int nbColor = nombreCouleur(selectionne, g->g->size);
+        int nbConflits = calculerConflits(g, selectionne);
+
+        printf("\rIter : %d %d %d\t", i, nbConflits, nbColor);
+
+        if (nbColor < 4 && nbConflits == 0) {
+            break;
+        }
     }
     printf("\n");
 
-    int minSaturation = g->g->size;
-    color *selectionne = NULL;
-
-    for (int i = 0; i < taillePopulation; i++)
-    {
-        int saturation = calculerConflits(g, pop[i]);
-        if (saturation < minSaturation)
-        {
-            minSaturation = saturation;
-            selectionne = pop[i];
-        }
-    }
+    color *selectionne = selectionnerColoration(g, pop, taillePopulation);
 
     for (int i = 0; i < g->g->size; i++)
     {
