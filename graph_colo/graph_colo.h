@@ -24,6 +24,16 @@ typedef t_graph_colo* graph_colo;
 graph_colo createGraphColo(int size);
 
 /**
+ * \brief returns a copy of a colored graph
+ * 
+ * \param myGraphColo the colored graph to copy
+ * 
+ * \return a copy of the param myGraphColo
+ * 
+ */
+graph_colo copyGraphColo(graph_colo myGraphColo);
+
+/**
  * \brief Add a new egdge to the colored graph between the given nodes
  * \param myGraph - colored graph to update
  * \param origin - origin of the new edge
@@ -112,5 +122,31 @@ color getMaxColor(graph_colo myGraph);
  * \return the colored graph with random colors
  */
 void colorGraphWithRandomColors(graph_colo myGraph);
+
+
+/**
+ * \brief give the number of edges which link to vertexes with the same color
+ * 
+ * \param myGraph the colored graph we want the interferences
+ * 
+ * \return int : the number of interferences
+ */
+int getNbInterferences(graph_colo myGraph);
+
+/**
+ * \brief give the number of interferences for a given node
+ * 
+ * \param myGraph the colored graph we are working on
+ * \param x the node we want interferences
+ * \param neighbours the array of x's neighbours
+ * 
+ * \return int : the number of interferences for x
+ */
+int getNbInterferenceForNode(graph_colo myGraph, node x, node* neighbours);
+
+int neighboursInterferencesDecreased(graph_colo myGraph, node x, node** neighbours, int* baseValues);
+
+int getNbInterferenceOfNeighbours(graph_colo myGraphColo, node x, node** neighbours);
+
 
 #endif 

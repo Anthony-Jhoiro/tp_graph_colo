@@ -139,6 +139,32 @@ graph createGraph(int size)
 }
 
 /**
+ * \brief returns a copy of a graph
+ * 
+ * \param myGraph the graph to copy
+ * 
+ * \return a copy of the param myGraph
+ * 
+ */
+graph copyGraph(graph myGraph){
+
+    int size = myGraph->size;
+
+    adjacency_matrix *adjacencies = createMatrix(size);
+
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            adjacencies->content[i][j] = myGraph->content[i][j];
+        }
+    }
+
+    return adjacencies;
+
+}
+
+/**
  * \brief Add a new egdge to the graph between the given nodes
  * \param myGraph - graph to update
  * \param origin - origin of the new edge
@@ -258,4 +284,28 @@ int degree(graph myGraph, node x)
     }
 
     return cpt;
+}
+
+/**
+ * \brief get an array of a given node neihbours
+ * 
+ * \param myGraph the graph we are working on
+ * \param x the node we want the neihbours
+ * 
+ * \return node* : an array of the x's neighbours
+ */
+node* getNodeNeighbours(graph myGraph, node x){
+
+    node* nodeNeighbours = (node*) malloc(sizeof(node) * myGraph->size);
+    int nodeNeighboursCpt = 0;
+
+    for(node a = 1; a <= myGraph->size; a++){
+        if(edgeExists(myGraph, x, a)){
+            nodeNeighbours[nodeNeighboursCpt] = a;
+            nodeNeighboursCpt++;
+        }
+    }
+
+    nodeNeighbours[nodeNeighboursCpt] = 0;
+    return nodeNeighbours;
 }

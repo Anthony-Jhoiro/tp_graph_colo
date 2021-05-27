@@ -87,6 +87,16 @@ void printMatrix(adjacency_matrix myMatrix);
 graph createGraph(int size);
 
 /**
+ * \brief returns a copy of a graph
+ * 
+ * \param myGraph the graph to copy
+ * 
+ * \return a copy of the param myGraph
+ * 
+ */
+graph copyGraph(graph myGraph);
+
+/**
  * \brief Add a new egdge to the graph between the given nodes
  * \param myGraph - graph to update
  * \param origin - origin of the new edge
@@ -133,5 +143,16 @@ int edgeExists(graph myGraph, node x, node y);
  * \return int : the x node's degree
  */
 int degree(graph myGraph, node x);
+
+
+/**
+ * \brief get an array of a given node neihbours
+ * 
+ * \param myGraph the graph we are working on
+ * \param x the node we want the neihbours
+ * 
+ * \return node* : an array of the x's neighbours
+ */
+node* getNodeNeighbours(graph myGraph, node x);
 
 #endif
