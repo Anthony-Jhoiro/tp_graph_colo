@@ -144,9 +144,5 @@ int getNbInterferences(graph_colo myGraph);
  */
 int getNbInterferenceForNode(graph_colo myGraph, node x, node* neighbours);
 
-int neighboursInterferencesDecreased(graph_colo myGraph, node x, node** neighbours, int* baseValues);
-
-int getNbInterferenceOfNeighbours(graph_colo myGraphColo, node x, node** neighbours);
-
 
 #endif 

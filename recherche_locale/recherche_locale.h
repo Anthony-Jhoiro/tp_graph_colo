@@ -15,7 +15,7 @@
  * 
  * \return the best color for the node
  */
-color changeForBestColor(graph_colo myGraph, node x, node** neighbours);
+color changeForBestColor(graph_colo myGraph, node x, node* neighbours);
 
 /**
  * \brief change the color of a graph_colo's node to have the least interferences

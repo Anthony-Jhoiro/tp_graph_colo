@@ -262,6 +262,14 @@ int edgeExists(graph myGraph, node x, node y)
     return myGraph->content[line][column];
 }
 
+/**
+ * \brief give the degree of a giving node
+ * 
+ * \param myGraph the graph getting the node
+ * \param x node we want the degree
+ * 
+ * \return int : the x node's degree
+ */
 int degree(graph myGraph, node x)
 {
     if (x > myGraph->size || x <= 0)
