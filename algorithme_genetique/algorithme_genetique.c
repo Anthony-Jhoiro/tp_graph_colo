@@ -193,6 +193,7 @@ color* selectionnerColoration(graph_colo g, color** population, int taillePopula
     return selectionne;
 }
 
+
 void alg_genetique(graph_colo g, int taillePopulation, int nbIter)
 {
 
@@ -201,6 +202,7 @@ void alg_genetique(graph_colo g, int taillePopulation, int nbIter)
 
     for (int i = 0; i < nbIter; i++)
     {
+        printf("i = %d\n", i);
         color **selection = selectionnerElements(g, taillePopulation, pop);
 
         crossOver(g, selection, taillePopulation, pop);
@@ -208,17 +210,6 @@ void alg_genetique(graph_colo g, int taillePopulation, int nbIter)
         muterSelection(g, taillePopulation, pop);        
 
         free(selection);
-
-        color *selectionne = selectionnerColoration(g, pop, taillePopulation);
-
-        int nbColor = nombreCouleur(selectionne, g->g->size);
-        int nbConflits = calculerConflits(g, selectionne);
-
-        printf("\rIter : %d %d %d\t", i, nbConflits, nbColor);
-
-        if (nbColor < 4 && nbConflits == 0) {
-            break;
-        }
     }
     printf("\n");
 
