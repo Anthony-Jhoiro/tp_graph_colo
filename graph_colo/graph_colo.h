@@ -1,7 +1,7 @@
 #ifndef GRAPH_COLO_H
 #define GRAPH_COLO_H
 
-#include "../graph/graph.c"
+#include "../graph/graph.h"
 
 typedef unsigned int color;
 

@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "type_traits": "cpp",
-        "algorithme_genetique.h": "c"
+        "algorithme_genetique.h": "c",
+        "recherche_locale.h": "c"
     }
 }

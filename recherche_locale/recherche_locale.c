@@ -195,7 +195,6 @@ void runRechercheLocale(graph_colo myGraphColo){
     printf("nombre de couleurs : %d\n", getMaxColor(myGraphColo));
     printf("======== graph optimise =========\n");
 
-    writePumlColo("res_local.puml", myGraphColo);
     printf("interferences : %d\n", getNbInterferences(myGraphColo));
     printf("nombre de couleurs : %d\n", getMaxColor(myGraphColo));
 
