@@ -2,6 +2,13 @@
 #include <time.h>
 #include <stdlib.h>
 
+/**
+ * \brief génère un tableau de couleur de façon aléatoire
+ * 
+ * \param size taille du tableau de couleur
+ * 
+ * \return color* : le tableau de couleurs
+ */
 color *genererColorationAleatoire(int size)
 {
     color *individu = malloc(sizeof(color) * size);
@@ -15,6 +22,14 @@ color *genererColorationAleatoire(int size)
     return individu;
 }
 
+/**
+ * \brief génère une population de colorations aléatoires
+ * 
+ * \param taillePopulation taille de la population à générer
+ * \param g graph sur lequel on se base pour générer une coloration aléatoire
+ * 
+ * \return color** : le tableau de colorations aléatoires
+ */
 color **genererPopulation(int taillePopulation, graph_colo g)
 {
     color **population = malloc(sizeof(color *) * taillePopulation);
@@ -27,6 +42,14 @@ color **genererPopulation(int taillePopulation, graph_colo g)
     return population;
 }
 
+/**
+ * \brief calcul le nombre d'interférences dans un graph coloré
+ * 
+ * \param myGraph graph dont on veut les interférences
+ * \param individu coloration du graph
+ * 
+ * \return int : le nombre d'interférences du graphe
+ */
 int calculerConflits(graph_colo myGraph, color *individu)
 {
     int res = 0;
@@ -45,6 +68,14 @@ int calculerConflits(graph_colo myGraph, color *individu)
     return res;
 }
 
+/**
+ * \brief retourne le nombre de couleurs distinctes dans une coloration
+ * 
+ * \param individu coloration dont on veut les couleurs distincte
+ * \param tailleIndividu taille de la coloration
+ * 
+ * \return le nombre de couleurs distincte dans une coloration
+ */
 int nombreCouleur(color *individu, int tailleIndividu)
 {
     color *set = malloc(sizeof(color) * tailleIndividu);
@@ -74,6 +105,15 @@ int nombreCouleur(color *individu, int tailleIndividu)
     return indexSet;
 }
 
+/**
+ * \brief selectionne les meilleurs individus d'une génération
+ * 
+ * \param origin graph coloré sur lequel on travaille
+ * \param taillePopulation taille de la population (génération)
+ * \param individus colorations formant la génération
+ * 
+ * \return color** : la meilleure moitié de individus
+ */
 color **selectionnerElements(graph_colo origin, int taillePopulation, color **individus)
 {
     color **population = malloc(sizeof(color *) * taillePopulation);
@@ -113,6 +153,15 @@ color **selectionnerElements(graph_colo origin, int taillePopulation, color **in
     return population;
 }
 
+/**
+ * \brief crée un enfant à partir de 2 colorations
+ * 
+ * \param papa première coloration parent
+ * \param maman deuxième coloration parent
+ * \param size taille des colorations de papa et maman
+ * 
+ * \return color* : une coloration enfant
+ */
 color *creerEnfant(color *papa, color *maman, int size)
 {
     color *enfant = malloc(sizeof(color) * size);
@@ -126,6 +175,16 @@ color *creerEnfant(color *papa, color *maman, int size)
     return enfant;
 }
 
+/**
+ * \brief crée une nouvelle génération
+ * 
+ * \param origin graph sur lequel on travaille
+ * \param individus génération de coloration parentes
+ * \param taillePopulation taille de la génération
+ * \param dans nouvelle génération de colorations
+ * 
+ * \return void
+ */
 void crossOver(graph_colo origin, color **individus, int taillePopulation, color **dans)
 {
 
@@ -145,6 +204,15 @@ void crossOver(graph_colo origin, color **individus, int taillePopulation, color
     }
 }
 
+/**
+ * \brief fait tourner un algorithme génétique
+ * 
+ * \param g graph sur lequel on travaille
+ * \param taillePopulation taille de la population que l'on veut créer
+ * \param nbIter nombre d'itération avant l'arrêt de l'algorithme (= nombre de générations à passer)
+ * 
+ * \return void
+ */
 void alg_genetique(graph_colo g, int taillePopulation, int nbIter)
 {
 
@@ -152,6 +220,7 @@ void alg_genetique(graph_colo g, int taillePopulation, int nbIter)
 
     for (int i = 0; i < nbIter; i++)
     {
+        printf("Iterations : %d/%d\r", i, nbIter);
         color **selection = selectionnerElements(g, taillePopulation, pop);
 
         crossOver(g, selection, taillePopulation, pop);
@@ -164,7 +233,6 @@ void alg_genetique(graph_colo g, int taillePopulation, int nbIter)
 
     for (int i = 0; i < taillePopulation; i++)
     {
-        printf("Iterration : %d\n", i);
         int saturation = calculerConflits(g, pop[i]);
         if (saturation < minSaturation)
         {
@@ -183,6 +251,6 @@ void alg_genetique(graph_colo g, int taillePopulation, int nbIter)
         free(pop[j]);
     }
 
-    printf("interference %d\n", calculerConflits(g, g->colors));
+    printf("\ninterference %d\n", calculerConflits(g, g->colors));
     printf("Nombre couleurs %d\n", nombreCouleur(g->colors, g->g->size));
 }

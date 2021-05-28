@@ -1,7 +1,7 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include "../graph_colo/graph_colo.h"
+#include "../graph_colo/graph_colo.c"
 
 #define BUFFER_SIZE 256
 

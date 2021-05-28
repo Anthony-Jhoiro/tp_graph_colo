@@ -15,22 +15,24 @@ node getUncoloredNodesWithMaxSaturation(graph_colo myGraph)
     int maxSat = 0;
     int maxDegree = 0;
 
-    for (int i = 1; i <= size; i++)
+    for (node i = 1; i <= size; i++)
     {
         int sat;
         // If the node is not colored
-        if ((!isColored(myGraph, i)))
+        if (!isColored(myGraph, i))
         {
+            sat = getSaturation(myGraph, i);
 
-            if ((sat = getSaturation(myGraph, i)) > maxSat)
+            if (sat > maxSat)
             {
+                
                 max = i;
                 maxSat = sat;
-                // reinitialize maxDegree cache
-                maxDegree = 0;
+                maxDegree = degree(myGraph->g, i);
             }
             else if (sat == maxSat)
             {
+
                 int iDegree = degree(myGraph->g, i);
                 // We keep maxDegree value in cache or use it if it has already a value
                 maxDegree = max == 0 ? 0 : (maxDegree ? maxDegree : degree(myGraph->g, max));
@@ -58,6 +60,15 @@ void runGreedyAlgorithm(graph_colo myGraph)
 {
     node a;
 
+    printf("\n\n      GREEDY\n\n");
+    printf("=============== graph de base ================\n");
+    
+    printf("nombre de noeuds : %d\n", myGraph->g->size);
+    printf("nombre de couleurs : %d\n", getMaxColor(myGraph));
+
+    printf("================ coloration ==================\n");
+
+    int nbColoredNodes = 0;
     while (a = getUncoloredNodesWithMaxSaturation(myGraph))
     {
         color col = 1;
@@ -67,5 +78,14 @@ void runGreedyAlgorithm(graph_colo myGraph)
         }
 
         setColor(myGraph, a, col);
+        nbColoredNodes++;
+        printf("nombre de noeuds colores : %d\r", nbColoredNodes);
     }
+    printf("nombre de noeuds colores : %d\n", nbColoredNodes);
+
+    printf("=============== graph optimise ================\n");
+    
+    printf("nombre de noeuds : %d\n", nbColoredNodes);
+    printf("nombre d'interferences : %d\n", getNbInterferences(myGraph));
+    printf("nombre de couleurs : %d\n", getMaxColor(myGraph));
 }

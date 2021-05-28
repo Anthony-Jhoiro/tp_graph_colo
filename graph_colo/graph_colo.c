@@ -23,6 +23,26 @@ graph_colo createGraphColo(int size)
 }
 
 /**
+ * \brief returns a copy of a colored graph
+ * 
+ * \param myGraphColo the colored graph to copy
+ * 
+ * \return a copy of the param myGraphColo
+ * 
+ */
+graph_colo copyGraphColo(graph_colo myGraphColo){
+    graph_colo newGraphColo = (graph_colo) malloc(sizeof(t_graph_colo));
+
+    newGraphColo->g = copyGraph(myGraphColo->g);
+
+    for(node a = 1; a <= newGraphColo->g->size; a++){
+        newGraphColo->colors[a - 1] = myGraphColo->colors[a - 1];
+    }
+
+    return newGraphColo;
+}
+
+/**
  * \brief Add a new egdge to the colored graph between the given nodes
  * \param myGraph - colored graph to update
  * \param origin - origin of the new edge
@@ -90,7 +110,14 @@ int getSaturation(graph_colo myGraph, node target)
         return 0;
     }
     int cpt = 0;
-    for (int i = 1; i <= myGraph->g->size; i++)
+    for (node i = 1; i < target; i++)
+    {
+        if (isColored(myGraph, i) && edgeExists(myGraph->g, target, i))
+        {
+            cpt++;
+        }
+    }
+    for (node i = target + 1; i <= myGraph->g->size; i++)
     {
         if (isColored(myGraph, i) && edgeExists(myGraph->g, target, i))
         {
@@ -120,7 +147,6 @@ int isNeighborColoredWithColoredColor(graph_colo g, node x, color col)
         {
             if (g->colors[i] == col)
             {
-                printf("%d taken by %d\n", col, i + 1);
                 return 1;
             }
         }
@@ -162,4 +188,74 @@ void printGraphColo(graph_colo myGraph)
     printf("\n");
 
     printGraph(myGraph->g);
+}
+
+/**
+ * \brief color a colored graph with random colors (so 2 neighbor vertexes can have the same color)
+ * 
+ * \param myGraph the graph which have to be colored
+ * 
+ * \return the colored graph with random colors
+ */
+void colorGraphWithRandomColors(graph_colo myGraph){
+    node a;
+    color col;
+    int nbColor = 0;
+
+    for(a = 1; a <= myGraph->g->size; a++){
+        col = rand() % (nbColor + 1) + 1;
+        if(col == nbColor + 1){
+            nbColor++;
+        }
+        setColor(myGraph, a, col);
+    }
+}
+
+/**
+ * \brief give the number of edges which link to vertexes with the same color
+ * 
+ * \param myGraph the colored graph we want the interferences
+ * 
+ * \return int : the number of interferences
+ */
+int getNbInterferences(graph_colo myGraph){
+    int nbInterferences = 0;
+
+    for (node a = 1; a <= myGraph->g->size; a++){
+
+        for(node b = 1; b < a; b++){
+
+            nbInterferences += (myGraph->colors[a - 1] == myGraph->colors[b - 1]) && myGraph->g->content[a - 1][b - 1];
+
+        }
+
+    }
+
+    return nbInterferences;
+
+}
+
+/**
+ * \brief give the number of interferences for a given node
+ * 
+ * \param myGraph the colored graph we are working on
+ * \param x the node we want interferences
+ * \param neighbours the array of x's neighbours
+ * 
+ * \return int : the number of interferences for x
+ */
+int getNbInterferenceForNode(graph_colo myGraph, node x, node* neighbours){
+
+    int cpt = 0;
+    int interferences = 0;
+
+    while(neighbours[cpt] != 0){
+        if(myGraph->colors[x - 1] == myGraph->colors[neighbours[cpt] - 1]){
+            interferences++;
+        }
+        cpt++;
+    }
+
+    return interferences;
+
 }
