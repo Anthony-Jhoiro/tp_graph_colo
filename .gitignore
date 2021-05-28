@@ -1,5 +1,7 @@
 *.o
 
+*.exe
+
 assets
 
 main 
