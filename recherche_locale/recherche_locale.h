@@ -1,9 +1,7 @@
 #ifndef RECHERCHE_TABOUE_H
 #define RECHERCHE_TABOUE_H
 
-#include "../parser/parser.c"
-
-
+#include "../graph_colo/graph_colo.h"
 
 
 /**
