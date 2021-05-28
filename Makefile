@@ -1,3 +1,5 @@
+# We add gdb for easier debugging, feel free to remove it.
+
 CXX       := gcc
 CXX_FLAGS := -ggdb
 
