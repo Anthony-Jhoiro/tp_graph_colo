@@ -12,7 +12,6 @@ adjacency_matrix *createMatrix(int size)
 {
     // Allocate the memory
     adjacency_matrix *newMatrix = malloc(sizeof(adjacency_matrix));
-
     newMatrix->size = size;
 
     newMatrix->content = malloc(sizeof(coeff *) * size);

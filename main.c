@@ -16,8 +16,7 @@ int main(int argc, char const *argv[])
 
     // runGreedyAlgorithm(myGraphColo);
 
-    // runRechercheLocale(myGraphColo);
-    
+    // runRechercheLocale(myGraphColo);    
 
 
     return 0;
