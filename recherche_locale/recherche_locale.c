@@ -155,7 +155,9 @@ void runRechercheLocale(graph_colo myGraphColo){
     }
     printf("=============== graph de base =================\n");
     
-    printf("interferences : %d\nnombre de couleur : %d\n======== reduction des interferences =========\n", getNbInterferences(myGraphColo), getMaxColor(myGraphColo));
+    printf("interferences : %d\n", getNbInterferences(myGraphColo));
+    printf("nombre de couleur : %d\n", getMaxColor(myGraphColo));
+    printf("======== reduction des interferences =========\n");
     printf("interferences : %d                    \r", getNbInterferences(myGraphColo));
     
     // on réduit d'abord à 0 le nombre d'interférence

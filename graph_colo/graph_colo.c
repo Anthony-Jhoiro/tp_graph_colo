@@ -110,7 +110,14 @@ int getSaturation(graph_colo myGraph, node target)
         return 0;
     }
     int cpt = 0;
-    for (int i = 1; i <= myGraph->g->size; i++)
+    for (node i = 1; i < target; i++)
+    {
+        if (isColored(myGraph, i) && edgeExists(myGraph->g, target, i))
+        {
+            cpt++;
+        }
+    }
+    for (node i = target + 1; i <= myGraph->g->size; i++)
     {
         if (isColored(myGraph, i) && edgeExists(myGraph->g, target, i))
         {
@@ -140,7 +147,6 @@ int isNeighborColoredWithColoredColor(graph_colo g, node x, color col)
         {
             if (g->colors[i] == col)
             {
-                printf("%d taken by %d\n", col, i + 1);
                 return 1;
             }
         }

@@ -288,7 +288,7 @@ int degree(graph myGraph, node x)
     }
     for (int i = lineNumber; i < myGraph->size; i++)
     {
-        cpt += myGraph->content[lineNumber][i] == 1;
+        cpt += myGraph->content[i][lineNumber] == 1;
     }
 
     return cpt;
